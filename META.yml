@@ -1,0 +1,27 @@
+---
+abstract: 'Validate a URL is a valid Facebook URL'
+author:
+  - 'Nigel Horne <njh@bandsman.co.uk>'
+build_requires:
+  ExtUtils::MakeMaker: 0
+configure_requires:
+  ExtUtils::MakeMaker: 0
+dynamic_config: 1
+generated_by: 'ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.120921'
+license: open_source
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: CGI-Untaint-Facebook
+no_index:
+  directory:
+    - t
+    - inc
+requires:
+  CGI::Untaint: 0
+  CGI::Untaint::url: 0
+  LWP::UserAgent: 0
+  Test::More: 0.82
+  Test::NoWarnings: 0
+  URI::Heuristic: 0
+version: 0.01
