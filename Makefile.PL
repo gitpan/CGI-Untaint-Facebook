@@ -18,6 +18,7 @@ WriteMakefile(
 	'Test::NoWarnings' => 0,
 	'LWP::UserAgent' => 0,
 	'URI::Heuristic' => 0,
+	'Mozilla::CA' => 20120823,
 	# 'Test::Kwalitee' => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },

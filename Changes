@@ -1,5 +1,8 @@
 Revision history for CGI-Untaint-Facebook
 
+0.03	Thu Dec 13 11:24:07 EST 2012
+	Validate hostname using Mozilla::CA
+
 0.02	Thu Dec 13 10:26:35 EST 2012
 	Validate IDs as well as URLs
 

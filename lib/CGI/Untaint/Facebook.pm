@@ -8,6 +8,7 @@ use Carp;
 use base 'CGI::Untaint::url';
 use LWP::UserAgent;
 use URI::Heuristic;
+use Mozilla::CA;
 
 =head1 NAME
 
@@ -15,11 +16,11 @@ CGI::Untaint::Facebook - Validate a URL is a valid Facebook URL or ID
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 =head1 SYNOPSIS
 
@@ -65,6 +66,7 @@ sub is_valid {
 	}
 
 	my $browser = LWP::UserAgent->new();
+	$browser->ssl_opts(verify_hostname => 1, SSL_ca_file => Mozilla::CA::SSL_ca_file());
 	$browser->agent('CGI::Untaint::Facebook');	# TODO: from class name
 	$browser->timeout(10);
 	$browser->max_size(128);
