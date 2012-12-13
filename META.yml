@@ -1,5 +1,5 @@
 ---
-abstract: 'Validate a URL is a valid Facebook URL'
+abstract: 'Validate a URL is a valid Facebook URL or ID'
 author:
   - 'Nigel Horne <njh@bandsman.co.uk>'
 build_requires:
@@ -24,4 +24,4 @@ requires:
   Test::More: 0.82
   Test::NoWarnings: 0
   URI::Heuristic: 0
-version: 0.01
+version: 0.02

@@ -11,19 +11,21 @@ use URI::Heuristic;
 
 =head1 NAME
 
-CGI::Untaint::Facebook - Validate a URL is a valid Facebook URL
+CGI::Untaint::Facebook - Validate a URL is a valid Facebook URL or ID
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 SYNOPSIS
 
-CGI::Untaint::Facebook validate if a given URL in a form is a valid Facebook URL.
+CGI::Untaint::Facebook validate if a given ID in a form is a valid Facebook ID.
+The ID can be either a full Facebook URL, or a page on facebook, so
+'http://www.facebook.com/nigelhorne' and 'nigelhorne' will both return true.
 
     use CGI::Info;
     use CGI::Untaint;
@@ -58,7 +60,7 @@ sub is_valid {
 	$value =~ s/\s+$//;
 	$value =~ s/^\s+//;
 
-	if(!$self->SUPER::is_valid()) {
+	if(length($value) == 0) {
 		return 0;
 	}
 
@@ -70,24 +72,23 @@ sub is_valid {
 	my $url;
 	if($value =~ /^http:\/\/www.facebook.com\/(.+)/) {
 		$url = "https://www.facebook.com/$1";
-	} elsif($value !~ /^https?:\/\/www.facebook.com\//) {
-		$url = "https://www.facebook.com/$value";
+		$self->value($url);
+	} elsif($value !~ /^https:\/\/www.facebook.com\//) {
+		$url = URI::Heuristic::uf_uristr("https://www.facebook.com/$value");
+		$self->value($url);
 	} else {
-		$url = URI::Heuristic::uf_uristr($value);
+		$url = $value;
+		if(!$self->SUPER::is_valid()) {
+			return 0;
+		}
 	}
+
 	my $request = new HTTP::Request('HEAD' => $url);
 	$request->header('Accept' => 'text/html');
 	if($ENV{'HTTP_ACCEPT_LANGUAGE'}) {
 		$request->header('Accept-Language' => $ENV{'HTTP_ACCEPT_LANGUAGE'});
 	}
-	my $webdoc = $browser->simple_request($request);
-	if(!$webdoc->is_success) {
-		return 0;
-	}
-	if($url ne $value) {
-		$self->value($url);
-	}
-	return 1;
+	return $browser->simple_request($request)->is_success();
 }
 
 =head1 AUTHOR

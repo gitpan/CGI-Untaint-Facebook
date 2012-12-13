@@ -15,7 +15,7 @@ if($@) {
 
         is_extractable('http://www.facebook.com/rockvillebb', 'https://www.facebook.com/rockvillebb', 'Facebook');
         is_extractable('https://www.facebook.com/rockvillebb', 'https://www.facebook.com/rockvillebb', 'Facebook');
+        is_extractable('voicetimemoney', 'https://www.facebook.com/voicetimemoney', 'Facebook');
         unextractable('http://www.example.com/foo', 'Facebook');
         unextractable('http://www.facebook.com/fhvhvhj0vfj90', 'Facebook');
-        unextractable('voicetimemoney', 'Facebook');
 }

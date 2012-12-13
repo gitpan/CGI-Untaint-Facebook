@@ -22,3 +22,5 @@ AnnoCPAN
 CGI
 CPAN
 GPL
+facebook
+nigelhorne

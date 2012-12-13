@@ -1,5 +1,5 @@
 {
-   "abstract" : "Validate a URL is a valid Facebook URL",
+   "abstract" : "Validate a URL is a valid Facebook URL or ID",
    "author" : [
       "Nigel Horne <njh@bandsman.co.uk>"
    ],
@@ -42,5 +42,5 @@
       }
    },
    "release_status" : "stable",
-   "version" : "0.01"
+   "version" : "0.02"
 }

@@ -1,6 +1,6 @@
 #!perl -wT
 
-use Test::More tests => 9;
+use Test::More tests => 10;
 
 BEGIN {
 	use_ok('CGI::Untaint::Facebook');
@@ -16,6 +16,7 @@ FACEBOOK: {
 	    url4 => 'xyzzy',
 	    url5 => 'ftp://www.facebook.com/voicetimemoney',
 	    url6 => ' ',
+	    url7 => 'rockvillebb',
 	};
 
 	my $untainter = new_ok('CGI::Untaint' => [ $vars ]);
@@ -37,4 +38,8 @@ FACEBOOK: {
 	# and what about empty fields?
 	$c = $untainter->extract(-as_Facebook => 'url6');
 	is($c, undef, 'Empty');
+
+	$c = $untainter->extract(-as_Facebook => 'url7');
+	is($c, 'https://www.facebook.com/rockvillebb', 'rockvillebb');
+
 }
