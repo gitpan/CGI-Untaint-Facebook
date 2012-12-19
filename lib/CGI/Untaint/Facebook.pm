@@ -16,11 +16,11 @@ CGI::Untaint::Facebook - Validate a URL is a valid Facebook URL or ID
 
 =head1 VERSION
 
-Version 0.04
+Version 0.05
 
 =cut
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 =head1 SYNOPSIS
 
@@ -62,6 +62,12 @@ sub is_valid {
 	$value =~ s/^\s+//;
 
 	if(length($value) == 0) {
+		return 0;
+	}
+
+	if($value =~ /([a-zA-Z0-9\-\/\.:]+)/) {
+		$value = $1;
+	} else {
 		return 0;
 	}
 

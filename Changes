@@ -1,5 +1,9 @@
 Revision history for CGI-Untaint-Facebook
 
+0.05	Tue Dec 18 20:48:42 EST 2012
+	Added t/taint.t
+	Ensured return value isn't tainted
+
 0.04	Sat Dec 15 11:30:33 EST 2012
 	Added tests to t/facebook.t
 	Added dependancy on LWP::Protocol::https

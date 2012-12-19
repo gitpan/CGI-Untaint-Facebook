@@ -23,6 +23,7 @@ t/port.t
 t/prereq.t
 t/snippets.t
 t/spelling.t
+t/taint.t
 t/untaint.t
 t/unused.t
 t/vars.t
