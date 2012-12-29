@@ -1,5 +1,11 @@
 Revision history for CGI-Untaint-Facebook
 
+0.06	Sat Dec 29 09:43:50 EST 2012
+	Fail to install if there is no connexion to the Internet
+	Added explicit use LWP::Protocol::https, that's needed on some systems
+	Honour http_proxy
+	Added t/strict.t
+
 0.05	Tue Dec 18 20:48:42 EST 2012
 	Added t/taint.t
 	Ensured return value isn't tainted

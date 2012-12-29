@@ -1,6 +1,15 @@
 use strict;
 use warnings;
 use ExtUtils::MakeMaker;
+use IO::Socket::INET;
+
+my $s = IO::Socket::INET->new(
+	PeerAddr => 'www.facebook.com:80',
+	Timeout => 10
+);
+unless($s) {
+	die 'CGI::Untaint::Facebook needs a permanent connexion to the Internet';
+}
 
 WriteMakefile(
     NAME                => 'CGI::Untaint::Facebook',

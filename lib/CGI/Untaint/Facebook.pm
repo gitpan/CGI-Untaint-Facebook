@@ -9,6 +9,7 @@ use base 'CGI::Untaint::url';
 use LWP::UserAgent;
 use URI::Heuristic;
 use Mozilla::CA;
+use LWP::Protocol::https;
 
 =head1 NAME
 
@@ -16,11 +17,11 @@ CGI::Untaint::Facebook - Validate a URL is a valid Facebook URL or ID
 
 =head1 VERSION
 
-Version 0.05
+Version 0.06
 
 =cut
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 =head1 SYNOPSIS
 
@@ -76,6 +77,7 @@ sub is_valid {
 	$browser->agent('CGI::Untaint::Facebook');	# TODO: from class name
 	$browser->timeout(10);
 	$browser->max_size(128);
+	$browser->env_proxy(1);
 
 	my $url;
 	if($value =~ /^http:\/\/www.facebook.com\/(.+)/) {
