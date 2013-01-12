@@ -17,11 +17,11 @@ CGI::Untaint::Facebook - Validate a URL is a valid Facebook URL or ID
 
 =head1 VERSION
 
-Version 0.06
+Version 0.07
 
 =cut
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 =head1 SYNOPSIS
 
@@ -152,7 +152,7 @@ L<http://search.cpan.org/dist/CGI-Untaint-Facebook>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2012 Nigel Horne.
+Copyright 2012,2013 Nigel Horne.
 
 This program is released under the following licence: GPL
 

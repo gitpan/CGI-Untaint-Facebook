@@ -1,5 +1,8 @@
 Revision history for CGI-Untaint-Facebook
 
+0.07	Sat Jan 12 08:13:04 EST 2013
+	Replaced t/unused.t with t/vars.t
+
 0.06	Sat Dec 29 09:43:50 EST 2012
 	Fail to install if there is no connexion to the Internet
 	Added explicit use LWP::Protocol::https, that's needed on some systems

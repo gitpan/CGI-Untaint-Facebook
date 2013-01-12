@@ -1,5 +1,6 @@
 #!perl -wT
 
+use strict;
 use Test::More tests => 13;
 
 BEGIN {
