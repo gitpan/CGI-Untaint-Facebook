@@ -1,5 +1,9 @@
 Revision history for CGI-Untaint-Facebook
 
+0.08	Tue Jan 15 21:00:58 EST 2013
+	Makefile.PL - check for https not http
+	Set minimum version of LWP::Protocol::https to 6.03
+
 0.07	Sat Jan 12 08:13:04 EST 2013
 	Replaced t/unused.t with t/vars.t
 

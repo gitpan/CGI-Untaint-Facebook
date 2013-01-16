@@ -4,7 +4,7 @@ use ExtUtils::MakeMaker;
 use IO::Socket::INET;
 
 my $s = IO::Socket::INET->new(
-	PeerAddr => 'www.facebook.com:80',
+	PeerAddr => 'www.facebook.com:443',
 	Timeout => 10
 );
 unless($s) {
@@ -28,7 +28,7 @@ WriteMakefile(
 	'LWP::UserAgent' => 0,
 	'URI::Heuristic' => 0,
 	'Mozilla::CA' => 20120823,
-	'LWP::Protocol::https' => 0,
+	'LWP::Protocol::https' => 6.03,
 	# 'Test::Kwalitee' => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
