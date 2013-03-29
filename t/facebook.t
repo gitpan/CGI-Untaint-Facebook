@@ -1,7 +1,7 @@
 #!perl -wT
 
 use strict;
-use Test::More tests => 13;
+use Test::More tests => 14;
 
 BEGIN {
 	use_ok('CGI::Untaint::Facebook');
@@ -25,6 +25,7 @@ FACEBOOK: {
 
 	my $untainter = new_ok('CGI::Untaint' => [ $vars ]);
 	my $c = $untainter->extract(-as_Facebook => 'url1');
+	ok(defined($c));
 	is($c, 'https://www.facebook.com/rockvillebb', 'rockvillebb');
 
 	$c = $untainter->extract(-as_Facebook => 'url2');

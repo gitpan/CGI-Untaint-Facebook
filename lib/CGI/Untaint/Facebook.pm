@@ -17,11 +17,11 @@ CGI::Untaint::Facebook - Validate a URL is a valid Facebook URL or ID
 
 =head1 VERSION
 
-Version 0.08
+Version 0.09
 
 =cut
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 =head1 SYNOPSIS
 
@@ -83,14 +83,17 @@ sub is_valid {
 	if($value =~ /^http:\/\/www.facebook.com\/(.+)/) {
 		$url = "https://www.facebook.com/$1";
 		$self->value($url);
+	} elsif($value =~ /^www\.facebook\.com/) {
+		$url = "https://$value";
+		$self->value($url);
 	} elsif($value !~ /^https:\/\/www.facebook.com\//) {
 		$url = URI::Heuristic::uf_uristr("https://www.facebook.com/$value");
 		$self->value($url);
 	} else {
-		$url = $value;
 		if(!$self->SUPER::is_valid()) {
 			return 0;
 		}
+		$url = $value;
 	}
 
 	my $request = new HTTP::Request('HEAD' => $url);
@@ -98,7 +101,16 @@ sub is_valid {
 	if($ENV{'HTTP_ACCEPT_LANGUAGE'}) {
 		$request->header('Accept-Language' => $ENV{'HTTP_ACCEPT_LANGUAGE'});
 	}
-	return $browser->simple_request($request)->is_success();
+	my $webdoc = $browser->simple_request($request);
+	my $error_code = $webdoc->code;
+	unless($webdoc->is_success()) {
+		unless($error_code == 404) {
+			# Probably the certs file is wrong
+			carp "$url: " . $webdoc->status_line;
+		}
+		return 0;
+	}
+	return 1;
 }
 
 =head1 AUTHOR
