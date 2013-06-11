@@ -1,5 +1,12 @@
 Revision history for CGI-Untaint-Facebook
 
+0.10
+	Dereive the name of the browser from the class name rather than
+		hard-coded
+	Use Test::Most
+	Allow m.facebook.com to be entered
+	Allow CGI arguments
+
 0.09	Fri Mar 29 09:54:51 EDT 2013
 	Give error message if the URL lookup fails with anything other than
 		404.  This is most useful in giving certifcate fail messages

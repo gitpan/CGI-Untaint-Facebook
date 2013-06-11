@@ -1,7 +1,7 @@
 #!perl -wT
 
 use strict;
-use Test::More tests => 14;
+use Test::Most tests => 15;
 
 BEGIN {
 	use_ok('CGI::Untaint::Facebook');
@@ -21,6 +21,7 @@ FACEBOOK: {
 	    url8 => 'pages/Green-Mountain-Brass-Band/307389872688637',
 	    url9 => 'fru90verfe890vrh89',
 	    url10 => '  rockvillebb ',
+	    url11 => 'https://m.facebook.com/#!/groups/6000106799?ref=bookmark&__user=764645045',
 	};
 
 	my $untainter = new_ok('CGI::Untaint' => [ $vars ]);
@@ -55,4 +56,7 @@ FACEBOOK: {
 
 	$c = $untainter->extract(-as_Facebook => 'url10');
 	is($c, 'https://www.facebook.com/rockvillebb', 'spaces are ignored');
+
+	$c = $untainter->extract(-as_Facebook => 'url11');
+	is($c, $vars->{'url11'}, 'CGI arguments are accepted');
 }

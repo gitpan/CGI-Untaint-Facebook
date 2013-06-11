@@ -17,11 +17,11 @@ CGI::Untaint::Facebook - Validate a URL is a valid Facebook URL or ID
 
 =head1 VERSION
 
-Version 0.09
+Version 0.10
 
 =cut
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 =head1 SYNOPSIS
 
@@ -66,7 +66,8 @@ sub is_valid {
 		return 0;
 	}
 
-	if($value =~ /([a-zA-Z0-9\-\/\.:]+)/) {
+	# Allow URLs such as https://m.facebook.com/#!/groups/6000106799?ref=bookmark&__user=764645045)
+	if($value =~ /([a-zA-Z0-9\-\/\.:\?&_=#!]+)/) {
 		$value = $1;
 	} else {
 		return 0;
@@ -74,7 +75,7 @@ sub is_valid {
 
 	my $browser = LWP::UserAgent->new();
 	$browser->ssl_opts(verify_hostname => 1, SSL_ca_file => Mozilla::CA::SSL_ca_file());
-	$browser->agent('CGI::Untaint::Facebook');	# TODO: from class name
+	$browser->agent(ref($self));	# Should be CGI::Untaint::Facebook
 	$browser->timeout(10);
 	$browser->max_size(128);
 	$browser->env_proxy(1);
@@ -86,7 +87,7 @@ sub is_valid {
 	} elsif($value =~ /^www\.facebook\.com/) {
 		$url = "https://$value";
 		$self->value($url);
-	} elsif($value !~ /^https:\/\/www.facebook.com\//) {
+	} elsif($value !~ /^https:\/\/(www|m).facebook.com\//) {
 		$url = URI::Heuristic::uf_uristr("https://www.facebook.com/$value");
 		$self->value($url);
 	} else {
@@ -105,7 +106,8 @@ sub is_valid {
 	my $error_code = $webdoc->code;
 	unless($webdoc->is_success()) {
 		unless($error_code == 404) {
-			# Probably the certs file is wrong
+			# Probably the certs file is wrong, or there was a
+			# timeout
 			carp "$url: " . $webdoc->status_line;
 		}
 		return 0;

@@ -7,7 +7,7 @@ build_requires:
 configure_requires:
   ExtUtils::MakeMaker: 0
 dynamic_config: 1
-generated_by: 'ExtUtils::MakeMaker version 6.64, CPAN::Meta::Converter version 2.120921'
+generated_by: 'ExtUtils::MakeMaker version 6.66, CPAN::Meta::Converter version 2.131490'
 license: open_source
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -23,7 +23,7 @@ requires:
   LWP::Protocol::https: 6.03
   LWP::UserAgent: 0
   Mozilla::CA: 20120823
-  Test::More: 0.82
+  Test::Most: 0
   Test::NoWarnings: 0
   URI::Heuristic: 0
-version: 0.09
+version: 0.10
