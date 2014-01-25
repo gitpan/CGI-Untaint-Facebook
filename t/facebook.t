@@ -1,7 +1,7 @@
 #!perl -wT
 
 use strict;
-use Test::Most tests => 15;
+use Test::Most tests => 17;
 
 BEGIN {
 	use_ok('CGI::Untaint::Facebook');
@@ -22,6 +22,8 @@ FACEBOOK: {
 	    url9 => 'fru90verfe890vrh89',
 	    url10 => '  rockvillebb ',
 	    url11 => 'https://m.facebook.com/#!/groups/6000106799?ref=bookmark&__user=764645045',
+	    url12 => 'https://www.facebook.com/pages/Sandhurst-Silver.../297412250355073',
+	    url13 => 'https://www.facebook.com/groups/321667408300/',
 	};
 
 	my $untainter = new_ok('CGI::Untaint' => [ $vars ]);
@@ -59,4 +61,10 @@ FACEBOOK: {
 
 	$c = $untainter->extract(-as_Facebook => 'url11');
 	is($c, $vars->{'url11'}, 'CGI arguments are accepted');
+
+	$c = $untainter->extract(-as_Facebook => 'url12');
+	is($c, 'https://www.facebook.com/pages/Sandhurst-Silver-Band/297412250355073', 'Sandhurst');
+
+	$c = $untainter->extract(-as_Facebook => 'url13');
+	is($c, $vars->{'url13'}, 'Belle Vue');
 }

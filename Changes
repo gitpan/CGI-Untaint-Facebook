@@ -1,7 +1,12 @@
 Revision history for CGI-Untaint-Facebook
 
-0.10
-	Dereive the name of the browser from the class name rather than
+0.11	Sat 25 Jan 15:02:24 EST 2014
+	Deal with 301 and 302 from Facebook
+	Bumped minimum version of Net::SSLeay that's needed to connect to
+		facebook.com
+
+0.10	Tue 11 Jun 08:23:16 EST 2013
+	Derive the name of the browser from the class name rather than
 		hard-coded
 	Use Test::Most
 	Allow m.facebook.com to be entered

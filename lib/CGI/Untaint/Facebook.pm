@@ -10,6 +10,7 @@ use LWP::UserAgent;
 use URI::Heuristic;
 use Mozilla::CA;
 use LWP::Protocol::https;
+use URI::Escape;
 
 =head1 NAME
 
@@ -17,11 +18,11 @@ CGI::Untaint::Facebook - Validate a URL is a valid Facebook URL or ID
 
 =head1 VERSION
 
-Version 0.10
+Version 0.11
 
 =cut
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 =head1 SYNOPSIS
 
@@ -73,13 +74,6 @@ sub is_valid {
 		return 0;
 	}
 
-	my $browser = LWP::UserAgent->new();
-	$browser->ssl_opts(verify_hostname => 1, SSL_ca_file => Mozilla::CA::SSL_ca_file());
-	$browser->agent(ref($self));	# Should be CGI::Untaint::Facebook
-	$browser->timeout(10);
-	$browser->max_size(128);
-	$browser->env_proxy(1);
-
 	my $url;
 	if($value =~ /^http:\/\/www.facebook.com\/(.+)/) {
 		$url = "https://www.facebook.com/$1";
@@ -102,12 +96,32 @@ sub is_valid {
 	if($ENV{'HTTP_ACCEPT_LANGUAGE'}) {
 		$request->header('Accept-Language' => $ENV{'HTTP_ACCEPT_LANGUAGE'});
 	}
+	my $browser = LWP::UserAgent->new();
+	$browser->ssl_opts(verify_hostname => 1, SSL_ca_file => Mozilla::CA::SSL_ca_file());
+	$browser->agent(ref($self));	# Should be CGI::Untaint::Facebook
+	$browser->timeout(10);
+	$browser->max_size(128);
+	$browser->env_proxy(1);
+
 	my $webdoc = $browser->simple_request($request);
 	my $error_code = $webdoc->code;
 	unless($webdoc->is_success()) {
-		unless($error_code == 404) {
-			# Probably the certs file is wrong, or there was a
-			# timeout
+		if((($error_code == 301) || ($error_code == 302)) &&
+		   ($webdoc->as_string =~ /^location: (.+)$/im)) {
+		   	my $location = $1;
+		   	if($location =~ /^https?:\/\/(www|m).facebook.com\/pages\/.+/) {
+				$self->value($location);
+				return 1;
+			} else {
+				my $e = uri_escape($url);
+				if($location =~ /^https?:\/\/(www|m).facebook.com\/login.php\?next=\Q$e\E/) {
+					return 1;
+				}
+			}
+			carp "redirect to $location";
+		} elsif($error_code != 404) {
+			# Probably the certs file is wrong, or there
+			# was a timeout
 			carp "$url: " . $webdoc->status_line;
 		}
 		return 0;
@@ -166,7 +180,7 @@ L<http://search.cpan.org/dist/CGI-Untaint-Facebook>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2012,2013 Nigel Horne.
+Copyright 2012-2014 Nigel Horne.
 
 This program is released under the following licence: GPL
 
